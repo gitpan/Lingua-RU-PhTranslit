@@ -1,5 +1,5 @@
 package Lingua::RU::PhTranslit;
-                                                                                            
+
 =head1 NAME
 
 Lingua::RU::PhTranslit -  Phonetic correct translit (for Cyrillic)
@@ -16,15 +16,35 @@ The folowing functions include in this package
   koi2win, win2koi
   koi2alt, alt2koi
 
-koi - KOI8-R
-win - Windows-1251, CP1251
-alt - CP866
+ koi - KOI8-R
+ win - Windows-1251, CP1251
+ alt - CP866
+
+sample script ------------------------------------------
+
+ use Lingua::RU::PhTranslit;
+
+ my $koi_string=" üÔÁ ÓÔÒÏŞËÁ ÎÁĞÉÓÁÎÁ ÒÕÓÓËÉÍÉ ÂÕËÏ×ËÁÍÉ";
+ print koi2phtr("$koi_string\n");
+
+script output ------------------------------------------
+ E'ta strochka napisana russkimi bukovkami
+
+-------------------------------------------------------
+
+    Main appointment of this package is converting information during
+export/import from/to mobile devices. On desktop computers this
+problem is not actul now. Transform in this pacage is bidirectional.
+
+P.S. Sorry for my English. It is not a native language for me.
 
 =head1 History
 
     0.1  ()		- initial release;
-    0.2  (2001-10-12) 	- £³ ÉÓĞÒÁ×ÌÅÎÙ × koi2win;
+    0.2  (2001-10-12) 	- correct "£³" in koi2win;
     0.3  (2003-03-28)	- missing test added;
+    0.4  (2003-04-10	- add some documentation,
+			  correct mistake with change $_ (thank's Sean M. Burke)
 
 =cut
 
@@ -36,10 +56,10 @@ require Exporter;
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw( &koi2phtr &phtr2koi &koi2win &win2koi &koi2alt &alt2koi);
 #@EXPORT_OK = qw();
-$VERSION = '0.3';
+$VERSION = '0.4';
 
 sub koi2phtr
-    { ($_)=@_;
+    { local ($_)=@_;
 
 #
 # koi8-r to Phonetic correct translit
@@ -78,7 +98,7 @@ return $_;
 }
 
 sub phtr2koi
-    { ($_)=@_;
+    { local($_)=@_;
 
 #
 # Phonetic correct translit to koi8-r
@@ -122,7 +142,7 @@ return $_;
 # Each function translate "\n" to "\n" - this in no bug.
 
 sub koi2win
-    { ($_)=@_;
+    { local($_)=@_;
 
 tr/
 áâ÷çäå³öúéêëìíîïğòóôõæèãşûıÿùøüàñÁÂ×ÇÄÅ£ÖÚÉÊËÌÍÎÏĞÒÓÔÕÆÈÃŞÛİßÙØÜÀÑ/
@@ -131,7 +151,7 @@ return $_;
     }
 
 sub win2koi
-    { ($_)=@_;
+    { local($_)=@_;
 
 tr/
 ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßàáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿ/
@@ -141,7 +161,7 @@ return $_;
     }
 
 sub alt2koi
-    { ($_)=@_;
+    { local($_)=@_;
 
 tr/
 €‚ƒ„…†‡ˆ‰Š‹Œ‘’“”•–—˜™š›œŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ/
@@ -151,7 +171,7 @@ return $_;
     }
 
 sub koi2alt
-    { ($_)=@_;
+    { local($_)=@_;
 
 tr/
 áâ÷çäåöúéêëìíîïğòóôõæèãşûıÿùøüàñÁÂ×ÇÄÅÖÚÉÊËÌÍÎÏĞ€¬®¶†–™‰¦¾©£“ƒ¹±²¸´°µ„”¡§¢¨¤ ¥‚’ˆ˜‘‡—•…³·¿º»¼½ÒÓÔÕÆÈÃŞÛİßÙØÜÀÑŠ‹Œ¯ª­«š›œŸ/
@@ -166,7 +186,7 @@ __END__
 
 =head1 AUTHOR
 
-CPAN -at- Basov -dot- net<Mikhail V. Basov> 
+CPAN -at- Basov -dot- net <Mikhail V. Basov>
 
 =head1 SEE ALSO
 
