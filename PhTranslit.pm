@@ -1,5 +1,5 @@
 package Lingua::RU::PhTranslit;
-
+                                                                                            
 =head1 NAME
 
 Lingua::RU::PhTranslit -  Phonetic correct translit (for Cyrillic)
@@ -11,13 +11,20 @@ Lingua::RU::PhTranslit -  Phonetic correct translit (for Cyrillic)
 =head1 DESCRIPTION
 
 The folowing functions include in this package
+
   koi2phtr, phtr2koi
   koi2win, win2koi
+  koi2alt, alt2koi
+
+koi - KOI8-R
+win - Windows-1251, CP1251
+alt - CP866
 
 =head1 History
 
-    0.1	()	     initial release
-    0.2 (2001-10-12) £³ ΙΣΠÒΑΧΜΕΞΩ Χ koi2win
+    0.1  ()		- initial release;
+    0.2  (2001-10-12) 	- £³ ΙΣΠÒΑΧΜΕΞΩ Χ koi2win;
+    0.3  (2003-03-28)	- missing test added;
 
 =cut
 
@@ -27,9 +34,9 @@ use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
-@EXPORT = qw( &koi2phtr &phtr2koi &koi2win &win2koi );
-#@EXPORT_OK = qw(  );
-$VERSION = '0.2';
+@EXPORT = qw( &koi2phtr &phtr2koi &koi2win &win2koi &koi2alt &alt2koi);
+#@EXPORT_OK = qw();
+$VERSION = '0.3';
 
 sub koi2phtr
     { ($_)=@_;
@@ -59,7 +66,7 @@ s/ΰ/Ju/g; s/ΐ/ju/g;
 s/ό/E\'/g; s/ά/e\'/g;
 s/ε/E/g; s/Ε/e/g;
 
-s/ϊΘ/Z\'h/g; s/ΪΘ/z\'h/g; s/ϊθ/Z\'H/g; 
+s/ϊΘ/Z\'h/g; s/ΪΘ/z\'h/g; s/ϊθ/Z\'H/g;
 s/φ/Zh/g; s/Φ/zh/g;
 
 tr/
@@ -112,22 +119,47 @@ return $_;
 
 #
 # Next functions added for Windows users
-#
+# Each function translate "\n" to "\n" - this in no bug.
 
 sub koi2win
     { ($_)=@_;
 
-tr/αβχηδε³φϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕ£ΦΪΙΚΛΜΝΞΟΠÒΣΤΥΖΘΓήΫέίΩΨάΐΡ/ΐΑΒΓΔΕ¨ΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεΈζηθικλμνξοπρςστυφχψωϊϋόύώÿ/;
+tr/
+αβχηδε³φϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕ£ΦΪΙΚΛΜΝΞΟΠÒΣΤΥΖΘΓήΫέίΩΨάΐΡ/
+ΐΑΒΓΔΕ¨ΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεΈζηθικλμνξοπρςστυφχψωϊϋόύώÿ/;
 return $_;
     }
 
 sub win2koi
     { ($_)=@_;
 
-tr/ΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώÿ/αβχηδεφϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕΦΪΙΚΛΜΝΞΟΠÒΣΤΥΖΘΓήΫέίΩΨάΐΡ/;
+tr/
+ΐΑΒΓΔΕ¨ΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεΈζηθικλμνξοπρςστυφχψωϊϋόύώÿ/
+αβχηδε³φϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕ£ΦΪΙΚΛΜΝΞΟΠÒΣΤΥΖΘΓήΫέίΩΨάΐΡ/;
 return $_;
 
     }
+
+sub alt2koi
+    { ($_)=@_;
+
+tr/
+€‚ƒ„…†‡‰‹‘’“”•–—™› ΅Ά£¤¥¦§¨©ª«¬­®―°±²³΄µ¶·ΈΉΊ»Ό½ΎΏΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώÿ/
+αβχηδεφϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕΦΪΙΚΛΜΝΞΟΠ€¬®¶†–™‰¦Ύ©£“ƒΉ±²Έ΄°µ„”΅§Ά¨¤ ¥‚’‘‡—•…³·ΏΊ»Ό½ÒΣΤΥΖΘΓήΫέίΩΨάΐΡ‹―ª­«›/;
+return $_;
+
+    }
+
+sub koi2alt
+    { ($_)=@_;
+
+tr/
+αβχηδεφϊικλμνξοπςστυζθγώϋύÿωψόΰρΑΒΧΗΔΕΦΪΙΚΛΜΝΞΟΠ€¬®¶†–™‰¦Ύ©£“ƒΉ±²Έ΄°µ„”΅§Ά¨¤ ¥‚’‘‡—•…³·ΏΊ»Ό½ÒΣΤΥΖΘΓήΫέίΩΨάΐΡ‹―ª­«›/
+€‚ƒ„…†‡‰‹‘’“”•–—™› ΅Ά£¤¥¦§¨©ª«¬­®―°±²³΄µ¶·ΈΉΊ»Ό½ΎΏΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡÒΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώÿ/;
+return $_;
+
+    }
+
 1;
 
 __END__

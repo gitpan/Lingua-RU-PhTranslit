@@ -3,3 +3,4 @@ Makefile.PL
 MANIFEST
 PhTranslit.pm
 README
+test.pl
